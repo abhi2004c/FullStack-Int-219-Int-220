@@ -31,11 +31,17 @@ $categories = getCategories($pdo);
                     <li><a href="#categories" class="nav-link">Categories</a></li>
                     <li><a href="#foot" class="nav-link">About</a></li>
                     <li><a href="#foot" class="nav-link">Contact</a></li>
+                    <?php if (isset($user) && $user['is_admin'] == 1): ?>
+                        <li><a href="admin.php" class="nav-link">Admin</a></li>
+                    <?php endif; ?>
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li><a href="logout.php" class="btn btn-primary">Logout</a></li>
                     <?php else: ?>
                         <li><a href="login.php" class="btn btn-primary">Login</a></li>
                         <li><a href="signup.php" class="btn btn-primary">Sign Up</a></li>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <li><a href="my_bookings.php" class="nav-link">My Bookings</a></li>
                     <?php endif; ?>
                 </ul>
                 <button class="mobile-menu-btn">
@@ -89,7 +95,7 @@ $categories = getCategories($pdo);
                                 <span><?php echo htmlspecialchars($event['location']); ?></span>
                             </div>
                             <div class="event-details">
-                                <span class="event-price">$<?php echo number_format($event['price'], 2); ?></span>
+                                <span class="event-price">Rs. <?php echo number_format($event['price'], 2); ?></span>
                                 <a href="book.php?event_id=<?php echo $event['event_id']; ?>" class="btn btn-primary book-btn">Book Now</a>
                             </div>
                         </div>

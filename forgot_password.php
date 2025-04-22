@@ -1,3 +1,7 @@
+<?php
+include 'config.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -284,8 +288,8 @@
     <main class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <h1 class="auth-title">Welcome Back</h1>
-                <p class="auth-subtitle">Sign in to your account to continue</p>
+                <h1 class="auth-title">Forgot Password</h1>
+                <p class="auth-subtitle">Reset Password with OTP</p>
             </div>
 
             <?php if (isset($_GET['error'])): ?>
@@ -298,26 +302,13 @@
                 </div>
             <?php endif; ?>
 
-            <form class="auth-form" id="loginForm" action="login_process.php" method="post">
+            <form class="auth-form" id="loginForm" action="send_otp.php" method="POST">
                 <div class="form-group">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password" required>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="remember" name="remember">
-                        <label for="remember">Remember me</label>
-                    </div>
-                <a href="forgot_password.php" class="forgot-password">Forgot password?</a>     
-                </div>
-
-                <button type="submit" class="btn">Sign In</button>
+                <button type="submit" href="check_otp.php" class="btn">Send OTP</button>
             </form>
 
             <div class="divider">

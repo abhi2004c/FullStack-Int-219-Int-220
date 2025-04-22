@@ -5,22 +5,36 @@ session_start();
 
 $events = [];
 $search_term = '';
+$category = '';
+
+$base_sql = "SELECT * FROM events WHERE 1=1";
+$params = [];
 
 if (isset($_GET['search']) && !empty(trim($_GET['search']))) {
 	$search_term = filter_var($_GET['search'], FILTER_SANITIZE_STRING);
 	$like_term = "%$search_term%";
-	try {
-		$stmt = $pdo->prepare("SELECT * FROM events WHERE title LIKE ? OR description LIKE ? OR location LIKE ? ORDER BY date ASC");
-		$stmt->execute([$like_term, $like_term, $like_term]);
-		$events = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	} catch (PDOException $e) {
-		error_log("Search error: " . $e->getMessage());
-		$events = [];
-	}
-} else {
-	$events = getEvents($pdo, 6); // Fallback to featured events
+	$base_sql .= " AND (title LIKE ? OR description LIKE ? OR location LIKE ?)";
+	array_push($params, $like_term, $like_term, $like_term);
+}
+
+if (isset($_GET['category']) && !empty(trim($_GET['category']))) {
+	$category = filter_var($_GET['category'], FILTER_SANITIZE_STRING);
+	$base_sql .= " AND category = ?";
+	$params[] = $category;
+}
+
+$base_sql .= " ORDER BY date ASC";
+
+try {
+	$stmt = $pdo->prepare($base_sql);
+	$stmt->execute($params);
+	$events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+	error_log("Search error: " . $e->getMessage());
+	$events = [];
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -102,7 +116,7 @@ if (isset($_GET['search']) && !empty(trim($_GET['search']))) {
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</div>
-		</div>
+		</div>	
 	</section>
 
 	<!-- Footer (optional, copied from index.php if present) -->

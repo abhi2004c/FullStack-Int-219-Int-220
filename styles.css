@@ -1198,3 +1198,118 @@ footer {
 	border-radius: 5px;
 	text-align: center;
 }
+
+.admin-section {
+    padding: 50px 0;
+    background-color: var(--primary-50);
+}
+.admin-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--neutral-900);
+}
+.admin-panel {
+    margin-bottom: 40px;
+}
+.admin-panel h3 {
+    font-size: 1.75rem;
+    margin-bottom: 20px;
+    color: var(--neutral-900);
+}
+.admin-panel h4 {
+    font-size: 1.25rem;
+    margin: 20px 0 10px;
+    color: var(--neutral-700);
+}
+.admin-form {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.admin-form textarea {
+    padding: 10px;
+    border: 1px solid var(--neutral-300);
+    border-radius: 5px;
+    font-size: 16px;
+    min-height: 100px;
+}
+.admin-form select {
+    padding: 10px;
+    border: 1px solid var(--neutral-300);
+    border-radius: 5px;
+    font-size: 16px;
+}
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.admin-table th,
+.admin-table td {
+    padding: 12px;
+    border: 1px solid var(--neutral-300);
+    text-align: left;
+}
+.admin-table th {
+    background-color: var(--primary-500);
+    color: white;
+}
+.admin-table tr:nth-child(even) {
+    background-color: var(--primary-50);
+}
+.btn-secondary {
+    padding: 8px 12px;
+    background-color: var(--neutral-500);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+.btn-secondary:hover {
+    background-color: var(--neutral-600);
+}
+.btn-danger {
+    padding: 8px 12px;
+    background-color: rgb(255, 192, 192);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+.btn-danger:hover {
+    background-color: var(--error-600);
+}
+:root {
+    --neutral-500: #6b7280;
+    --neutral-600: #4b5563;
+    --error-600: #dc2626;
+}
+/* add */
+.admin-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.tab-link {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--neutral-300);
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    color: var(--neutral-700);
+}
+.tab-link.active {
+    background-color: var(--primary-500);
+    color: white;
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}

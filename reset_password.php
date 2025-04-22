@@ -1,3 +1,36 @@
+<?php
+include 'config.php'; // DB connection
+
+// Get the email from URL
+$email = $_GET['email'] ?? '';
+
+if (empty($email)) {
+    echo "Invalid request.";
+    exit();
+}
+
+// If form is submitted, process the password reset
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = $_POST['email'];
+    $new_password = $_POST['password'];
+
+    // Hash the new password
+    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+    // Update password in database
+    $stmt = $pdo->prepare("UPDATE users SET password = ?, otp = NULL, otp_expiry = NULL WHERE email = ?");
+    $stmt->execute([$hashed_password, $email]);
+
+    if ($stmt->rowCount() > 0) {
+        header("Location: login.php?reset=success");
+        exit();
+    } else {
+        echo "Error resetting your password. Please try again.";
+    }
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -280,12 +313,11 @@
         </div>
     </header>
 
-    <!-- Login Form -->
     <main class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <h1 class="auth-title">Welcome Back</h1>
-                <p class="auth-subtitle">Sign in to your account to continue</p>
+                <h1 class="auth-title">Forgot Password</h1>
+                <p class="auth-subtitle">Reset Password with OTP</p>
             </div>
 
             <?php if (isset($_GET['error'])): ?>
@@ -297,30 +329,16 @@
                     Invalid email or password. Please try again.
                 </div>
             <?php endif; ?>
+    <form method="POST" class="auth-form" id="loginForm" action="reset_password.php?email=<?php echo urlencode($email); ?>">
+    <div class="form-group">
+        <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
 
-            <form class="auth-form" id="loginForm" action="login_process.php" method="post">
-                <div class="form-group">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password" required>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="remember" name="remember">
-                        <label for="remember">Remember me</label>
-                    </div>
-                <a href="forgot_password.php" class="forgot-password">Forgot password?</a>     
-                </div>
-
-                <button type="submit" class="btn">Sign In</button>
-            </form>
-
-            <div class="divider">
+        <label class="form-label" for="password">New Password:</label>
+        <input type="password" name="password" class="form-input" id="password" required>
+        </div>
+        <button class="btn" href="login.php" type="submit">Reset Password</button>
+    </form>
+    <div class="divider">
                 <span>OR</span>
             </div>
 
@@ -354,8 +372,5 @@
             </div>
         </div>
     </footer>
-
-    
 </body>
-
 </html>
