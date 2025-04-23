@@ -40,3 +40,6 @@ Used PHP and Sql for the backend part of the website.
 - [XAMPP](https://www.apachefriends.org/) installed (Apache and MySQL modules).
 - A web browser (e.g., Chrome, Firefox).
 - Basic knowledge of PHP and MySQL.
+
+## Database-Setup
+- use scheme.sql and paste it in localhost/phpmyadmin/ for creating database named "eventhub"
