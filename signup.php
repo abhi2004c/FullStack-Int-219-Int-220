@@ -54,7 +54,6 @@
             padding: 0 2rem;
         }
 
-        /* Header Styles */
         header {
             background-color: var(--white);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -74,7 +73,6 @@
             color: var(--primary);
         }
 
-        /* Auth Form Styles */
         .auth-container {
             flex: 1;
             display: flex;
@@ -242,7 +240,6 @@
             display: none;
         }
 
-        /* Footer */
         footer {
             background-color: var(--dark);
             color: var(--white);
@@ -291,7 +288,6 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header>
         <div class="container">
             <nav class="navbar">
@@ -300,7 +296,6 @@
         </div>
     </header>
 
-    <!-- Signup Form -->
     <main class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
@@ -338,7 +333,7 @@
 
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-input" placeholder="Create a password" required>
+                    <input type="password" id="password" name="password" class="form-input" minlength="8" maxlength="20" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" title="Must contain at least 8 characters, including UPPER/lowercase, number and special character" title="" placeholder="Create a password" required>
                 </div>
 
                 <div class="form-group">
@@ -379,7 +374,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
