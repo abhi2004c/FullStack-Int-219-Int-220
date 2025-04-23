@@ -31,10 +31,14 @@ $categories = getCategories($pdo);
                     <li><a href="#categories" class="nav-link">Categories</a></li>
                     <li><a href="#foot" class="nav-link">About</a></li>
                     <li><a href="#foot" class="nav-link">Contact</a></li>
-                    <?php if (isset($user) && $user['is_admin'] == 1): ?>
-                        <li><a href="admin.php" class="nav-link">Admin</a></li>
-                    <?php endif; ?>
                     <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php
+                        $stmt = $pdo->prepare("SELECT is_admin FROM users WHERE user_id = ?");
+                        $stmt->execute([$_SESSION['user_id']]);
+                        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                        if ($user && $user['is_admin'] == 1): ?>
+                            <li><a href="admin.php" class="nav-link">Admin</a></li>
+                        <?php endif; ?>
                         <li><a href="logout.php" class="btn btn-primary">Logout</a></li>
                     <?php else: ?>
                         <li><a href="login.php" class="btn btn-primary">Login</a></li>
@@ -254,11 +258,10 @@ $categories = getCategories($pdo);
                 <div class="footer-column">
                     <h3>Support</h3>
                     <ul class="footer-links">
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">Prince Anand &nbsp;<i class="fa-brands fa-linkedin"></i></a></li>
+                        <li><a href="https://www.linkedin.com/in/abhi2004c/">Abhinandan &nbsp;<i class="fa-brands fa-linkedin"></i></a></li>
+                        <li><a href="#">Jahnvi &nbsp;<i class="fa-brands fa-linkedin"></i></a></li>
+                        <li><a href="#">Apurba &nbsp;<i class="fa-brands fa-linkedin"></i></a></li>
                     </ul>
                 </div>
 
