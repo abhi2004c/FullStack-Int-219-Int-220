@@ -6,20 +6,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $otp = rand(100000, 999999);
     $expiry = date("Y-m-d H:i:s", strtotime("+10 minutes"));
 
-    // Prepare SQL query to check if the email exists
+    // Check if email exists
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->execute([$email]);
 
     if ($stmt->rowCount() > 0) {
-        // Save OTP & expiry in the database
+        // Store OTP in DB
         $update = $pdo->prepare("UPDATE users SET otp = ?, otp_expiry = ? WHERE email = ?");
         $update->execute([$otp, $expiry, $email]);
 
-        // Save OTP to file (for testing purposes)
+        // Save OTP to file (for testing)
         $content = "Email: $email\nOTP: $otp\nExpires At: $expiry\n";
-        file_put_contents("OTP_forgot.txt", $content);
+        file_put_contents("OTP_forgot.txt", $content, FILE_APPEND);
 
-        // Redirect to verify page with email in URL
+        // Send OTP via email
+        $subject = "Your OTP Code";
+        $message = "Hello,\n\nYour OTP is: $otp\nIt expires at: $expiry\n\nDo not share this with anyone.";
+        $from = "honey2004c@gmail.com";
+        $headers = "From: $from";
+
+        if (!mail($email, $subject, $message, $headers)) {
+            echo "Failed to send OTP email.";
+            exit();
+        }
+
+        // Redirect to verify page
         header("Location: verify_otp.php?email=" . urlencode($email));
         exit();
     } else {

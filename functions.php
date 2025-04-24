@@ -6,10 +6,14 @@
  * @param int $limit Number of events to fetch
  * @return array Array of events
  */
-function getEvents($pdo, $limit = 6)
+function getEvents($pdo, $limit = null)
 {
-	$stmt = $pdo->prepare("SELECT * FROM events ORDER BY date ASC LIMIT :limit");
-	$stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+	if ($limit !== null) {
+		$stmt = $pdo->prepare("SELECT * FROM events ORDER BY date ASC LIMIT :limit");
+		$stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+	} else {
+		$stmt = $pdo->prepare("SELECT * FROM events ORDER BY date ASC");
+	}
 	$stmt->execute();
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

@@ -3,7 +3,7 @@ include 'config.php';
 include 'functions.php';
 session_start();
 
-$events = getEvents($pdo, 13);
+$events = getEvents($pdo, 20);
 $categories = getCategories($pdo);
 ?>
 <!DOCTYPE html>
