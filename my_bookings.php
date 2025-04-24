@@ -28,6 +28,12 @@ $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+	<?php
+	$success = $_SESSION['success'] ?? null;
+	$error = $_SESSION['error'] ?? null;
+	unset($_SESSION['success'], $_SESSION['error']);
+	?>
+
 	<header>
 		<div class="container">
 
@@ -72,7 +78,13 @@ $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 							<td><?php echo htmlspecialchars($booking['title']); ?></td>
 							<td><?php echo date('M d, Y', strtotime($booking['date'])); ?></td>
 							<td><?php echo htmlspecialchars($booking['location']); ?></td>
-							<td>$<?php echo number_format($booking['price'], 2); ?></td>
+							<td>Rs <?php echo number_format($booking['price'], 2); ?> </td>
+							<td>
+								<form action="cancel_booking.php" method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+									<input type="hidden" name="booking_id" value="<?php echo $booking['booking_id']; ?>">
+									<button type="submit" class="btn btn-danger">Cancel</button>
+								</form>
+							</td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
